@@ -1,0 +1,20 @@
+# Project related files
+.gemini/
+_TESTFILES/
+_OUTBOX/*
+_INBOX/*
+_LOGS/*
+
+# env
+.env
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv

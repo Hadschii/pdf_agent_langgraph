@@ -1,0 +1,53 @@
+llm_model: "gpt-5-nano"
+llm_temperature: 0
+
+input_folder: ./_INBOX
+output_folder: ./_OUTBOX 
+report_folder: ./_LOGS
+
+default_naming: "{date}_{category}_{company}_{content_summary}"
+date_format: "%y%m%d"
+language: de
+
+category_list:
+  - rechnung
+  - gehalt
+  - gesundheit
+  - vertrag
+  - sonstiges
+
+label_threshold: 0.8
+
+labels:
+  - shopping
+  - travel
+  - car
+  - medical
+  - housing
+  - tax
+  - work
+  - study
+  - finance
+  - food
+  - retirement
+
+category_paths:
+  rechnung:
+    folder: rechnungen/{year}/
+    naming: "{date}_rechnung_{company}_{content_summary}"
+    label_overrides:
+      car:
+        folder: rechnungen/{year}/
+        naming: "{date}_rechnung_kfz_{company}_{content_summary}"
+  gehalt:
+    folder: arbeit/{company}/{company}_gehaltsnachweis/{year}/
+    naming: "{date}_{company}_gehalt"
+  vertrag:
+    folder: vertraege/
+    naming: "{date}_vertrag_{company}_{content_summary}"
+  gesundheit:
+    folder: gesundheit/
+    naming: "{date}_medizinisch_{company}_{content_summary}"
+  sonstiges:
+    folder: sonstiges/
+    naming: "{date}_sonstiges_{company}_{content_summary}"
