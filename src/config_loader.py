@@ -102,7 +102,6 @@ class PDFConfig:
     @property
     def input_folder(self) -> str:
         return self._resolve_path(self.data["input_folder"])
-    
 
     @property
     def input_folder(self) -> str:
@@ -151,14 +150,14 @@ class PDFConfig:
         """Resolve a path string to an absolute path, handling ~ and env vars."""
         if not path_str:
             return path_str
-        
+
         # Create Path object and resolve ~ and env vars
         path = Path(path_str).expanduser()
-        
+
         # If relative, resolve against project root
         if not path.is_absolute():
             path = self.project_root / path
-            
+
         return str(path.resolve())
 
     def normalize_category(self, category: str) -> str:

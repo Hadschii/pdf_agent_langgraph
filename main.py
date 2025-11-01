@@ -1,24 +1,25 @@
-
-from datetime import datetime
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict
 
 from dotenv import load_dotenv
+
 # Ensure environment variables are loaded before our components initialize.
 load_dotenv()
 
 from langchain_core.runnables.graph import MermaidDrawMethod
 from langgraph.graph import END, StateGraph
 
-from src.state import State
+from src.config_loader import PDFConfig
 from src.logger import logger
-from src.pdf_text_extractor import text_extraction_node
 from src.pdf_analyzer import text_analysis_node
 from src.pdf_organizer import organization_node
+from src.pdf_text_extractor import text_extraction_node
+from src.state import State
 
-from src.config_loader import PDFConfig
 config = PDFConfig()
+
 
 def draw_graph(app: Any, output_path: str = "graph.png") -> None:
     """Write the compiled graph PNG to disk.
@@ -61,7 +62,10 @@ def main() -> None:
     """
     print("Hello from pdf-agent-langgraph! ====================")
 
-    logger.log(f"STARTING PDF PROCESSING ON {datetime.now().strftime('%Y-%m-%d at %H:%M:%S')}", level="info")
+    logger.log(
+        f"STARTING PDF PROCESSING ON {datetime.now().strftime('%Y-%m-%d at %H:%M:%S')}",
+        level="info",
+    )
     logger.log(f"from path {config.input_folder}", level="info")
 
     # Create our StateGraph
@@ -80,7 +84,7 @@ def main() -> None:
 
     # Compile the graph
     app = workflow.compile()
-    #draw_graph(app=app, output_path="pdf_agent_langgraph_graph.png")
+    # draw_graph(app=app, output_path="pdf_agent_langgraph_graph.png")
 
     # Use pathlib for more robust path handling
     input_path = Path(config.input_folder)
@@ -91,6 +95,7 @@ def main() -> None:
     logger.log(f"Batch processed {len(pdfs)} PDF(s) in {input_path}")
 
     print("Bye bye from pdf-agent-langgraph! ====================")
+
 
 if __name__ == "__main__":
     main()

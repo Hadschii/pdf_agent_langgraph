@@ -1,14 +1,14 @@
 from pathlib import Path
-from typing import Tuple, Dict, Any
+from typing import Any, Dict, Tuple
 
 import pytesseract
-from PIL import Image
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders.parsers import TesseractBlobParser
 from pdf2image import convert_from_path
-from src.state import State
+from PIL import Image
 
 from src.logger import logger
+from src.state import State
 
 
 def text_extraction_node(state: State) -> Dict[str, str]:
@@ -38,12 +38,17 @@ def extract_text_from_file(file_path: str) -> Tuple[str, str]:
     path = Path(file_path)
     image_exts = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp"}
     if path.suffix.lower() in image_exts:
-        logger.log(f"Image file support is experimental. Extracting text from image file: {file_path}", level="warning")
+        logger.log(
+            f"Image file support is experimental. Extracting text from image file: {file_path}",
+            level="warning",
+        )
         return extract_text_from_image(file_path)
     return extract_text_from_pdf(file_path)
 
 
-def extract_text_from_image(file_path: str, ocr_languages: str = "deu+eng") -> Tuple[str, str]:
+def extract_text_from_image(
+    file_path: str, ocr_languages: str = "deu+eng"
+) -> Tuple[str, str]:
     """Run pytesseract on an image file and return (text, method).
 
     Args:
@@ -62,9 +67,15 @@ def extract_text_from_image(file_path: str, ocr_languages: str = "deu+eng") -> T
         extracted_text = pytesseract.image_to_string(img, lang=ocr_languages)
         extraction_method = "image-pytesseract"
         if extracted_text:
-            logger.log(f"Extracted text from image {file_path} using pytesseract; {len(extracted_text)} chars", level="info")
+            logger.log(
+                f"Extracted text from image {file_path} using pytesseract; {len(extracted_text)} chars",
+                level="info",
+            )
         else:
-            logger.log(f"No text found in image {file_path} using pytesseract.", level="warning")
+            logger.log(
+                f"No text found in image {file_path} using pytesseract.",
+                level="warning",
+            )
         return extracted_text, extraction_method
     except Exception as e:
         logger.log(f"Failed to OCR image {file_path}: {e}", level="error")

@@ -2,9 +2,9 @@ import re
 import shutil
 from datetime import datetime
 from pathlib import Path
-from src.state import State
 
 from src.logger import logger
+from src.state import State
 
 
 def organization_node(state: State) -> dict:
@@ -44,7 +44,7 @@ def organization_node(state: State) -> dict:
                 break
             except Exception:
                 continue
-    
+
     # Fallback to today
     if not date_prefix:
         date_prefix = datetime.now().strftime("%y%m%d")
@@ -58,17 +58,22 @@ def organization_node(state: State) -> dict:
 
     # Format the target directory using config templates
     dt = datetime.strptime(date_prefix, "%y%m%d")
-    target_dir = Path(config.format_folder_for_category(
-        category, year=dt.strftime("%Y"), company=organisation, date=dt
-    ))
+    target_dir = Path(
+        config.format_folder_for_category(
+            category, year=dt.strftime("%Y"), company=organisation, date=dt
+        )
+    )
     target_dir.mkdir(parents=True, exist_ok=True)
 
     summary = (state.get("summary") or "nosummary").strip()
 
     # Use config to format the filename, passing source_path to preserve extension
     new_name = config.format_filename_for_category(
-        category, company=organisation, content_summary=summary, date=dt,
-        source_path=pdf_path  # Pass source_path to preserve extension
+        category,
+        company=organisation,
+        content_summary=summary,
+        date=dt,
+        source_path=pdf_path,  # Pass source_path to preserve extension
     )
     logger.log(f"Moving file '{pdf_path}' to '{target_dir / new_name}'", level="info")
     moved_path = move_rename_file(pdf_path, new_name, str(target_dir))
@@ -86,7 +91,7 @@ def sanitize_filename(filename: str, max_length: int = 120) -> str:
     # Truncate if too long
     if len(filename) > max_length:
         path = Path(filename)
-        stem = path.stem[:max_length - len(path.suffix)]
+        stem = path.stem[: max_length - len(path.suffix)]
         filename = f"{stem}{path.suffix}"
     return filename.lower()
 
@@ -105,7 +110,7 @@ def move_rename_file(original_path: str, new_name: str, target_directory: str) -
     src_path = Path(original_path)
     dst_dir = Path(target_directory)
     sanitized_name = sanitize_filename(new_name)
-    
+
     # Ensure target directory exists
     dst_dir.mkdir(parents=True, exist_ok=True)
     dst_path = dst_dir / sanitized_name
@@ -120,5 +125,8 @@ def move_rename_file(original_path: str, new_name: str, target_directory: str) -
             src_path.replace(dst_path)
             return str(dst_path)
         except Exception as e2:
-            logger.log(f"Failed to move/rename file from '{src_path}' to '{dst_path}': {e} / {e2}", level="error")
+            logger.log(
+                f"Failed to move/rename file from '{src_path}' to '{dst_path}': {e} / {e2}",
+                level="error",
+            )
             return str(src_path)

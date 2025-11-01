@@ -2,14 +2,14 @@ import csv
 import logging
 import os
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 from src.config_loader import PDFConfig
 
 
 class Logger:
     """A small wrapper around Python's logging that also writes simple CSV reports.
-    
+
     Use the module-level `logger` instance instead of constructing Logger instances
     across modules. The logger uses paths from PDFConfig by default.
     """
@@ -19,7 +19,7 @@ class Logger:
         # Use the configured report folder for both logs and reports
         report_dir = self.config.report_folder
         os.makedirs(report_dir, exist_ok=True)
-        
+
         self.reports_dir = report_dir
         self.log_path = os.path.join(report_dir, "agent.log")
 

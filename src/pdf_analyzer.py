@@ -1,11 +1,12 @@
 import json
-from typing import Dict, Any
+from typing import Any, Dict
+
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import PromptTemplate
-from src.state import State
-from src.llm_client import get_llm
 
+from src.llm_client import get_llm
 from src.logger import logger
+from src.state import State
 
 
 def text_analysis_node(state: State) -> Dict[str, Any]:
@@ -67,9 +68,10 @@ def text_analysis_node(state: State) -> Dict[str, Any]:
             "summary": parsed.get("summary", "").strip(),
         }
     except json.JSONDecodeError as e:
-        logger.log(f"Failed to parse LLM response as JSON: {e}\nRaw output:\n{response}", level="error")
+        logger.log(
+            f"Failed to parse LLM response as JSON: {e}\nRaw output:\n{response}",
+            level="error",
+        )
         raise ValueError(
             f"Failed to parse LLM response as JSON: {e}\nRaw output:\n{response}"
         )
-        
-
