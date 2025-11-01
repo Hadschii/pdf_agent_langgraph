@@ -8,7 +8,7 @@ from src.llm_client import get_llm
 from src.logger import logger
 from src.state import State
 
-
+# TODO: labels are currently not extracted so overrided in config.yaml has not been implemented
 def text_analysis_node(state: State) -> Dict[str, Any]:
     """Classify, extract entities, and summarize a document using the LLM.
 

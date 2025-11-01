@@ -35,6 +35,7 @@ category_paths:
   rechnung:
     folder: rechnungen/{year}/
     naming: "{date}_rechnung_{company}_{content_summary}"
+    # TODO: label overrided not yet implemented in code
     label_overrides:
       car:
         folder: rechnungen/{year}/

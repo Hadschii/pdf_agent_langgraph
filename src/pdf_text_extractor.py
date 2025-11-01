@@ -45,7 +45,7 @@ def extract_text_from_file(file_path: str) -> Tuple[str, str]:
         return extract_text_from_image(file_path)
     return extract_text_from_pdf(file_path)
 
-
+# TODO: Move to separate image_text_extractor.py and own node
 def extract_text_from_image(
     file_path: str, ocr_languages: str = "deu+eng"
 ) -> Tuple[str, str]:
