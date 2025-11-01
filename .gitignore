@@ -5,6 +5,11 @@ _OUTBOX/*
 _INBOX/*
 _LOGS/*
 
+# Keep .gitkeep files in these folders so empty dirs can be tracked
+!/_OUTBOX/.gitkeep
+!/_INBOX/.gitkeep
+!/_LOGS/.gitkeep
+
 # env
 .env
 
