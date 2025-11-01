@@ -49,6 +49,10 @@ python main.py
 	3. Organize & move file (`src/pdf_organizer.py`)
 - Logging & reports are handled by `src/logger.py`.
 
+![Langgraph flow](pdf_agent_langgraph_graph.png "Langgraph flow")
 
 That’s it — drop PDFs in, watch the bot sort your paperwork, and take credit for being extremely organized.
 
+# Roadmap
+- implement label extraction and folder overwrites based on labels
+- add support for image text extraction
