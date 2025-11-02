@@ -26,3 +26,6 @@ wheels/
 
 # MacOS files
 **/.DS_Store
+
+# Testing files
+.pytest_cache/
