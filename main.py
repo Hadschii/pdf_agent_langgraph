@@ -13,9 +13,9 @@ from langgraph.graph import START,END, StateGraph
 
 from src.config_loader import PDFConfig
 from src.logger import logger
-from src.pdf_analyzer import text_analysis_node
+from src.file_analyzer import text_analysis_node
 from src.file_organizer import organization_node
-from src.file_text_extractor import pdf_extraction_node
+from src.pdf_text_extractor import pdf_extraction_node
 from src.img_text_extractor import img_extraction_node
 from src.state import State
 
