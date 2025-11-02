@@ -100,16 +100,25 @@ def main() -> None:
 
     # Compile the graph
     app = workflow.compile()
-    draw_graph(app=app, output_path="pdf_agent_langgraph_graph.png")
+    #draw_graph(app=app, output_path="pdf_agent_langgraph_graph.png")
 
     input_path = Path(config.input_folder)
-    # Collect all supported file types
-    exts = ["*.pdf", "*.png", "*.jpg", "*.jpeg"]
-    files = sorted([p for ext in exts for p in input_path.glob(ext)])
+    # Validate input folder
+    if not input_path.exists() or not input_path.is_dir():
+        logger.log(f"Input folder does not exist or is not a directory: {input_path}", level="error")
+        return
+    # Collect all supported file types (recursive, case-insensitive)
+    allowed_exts = {".pdf", ".png", ".jpg", ".jpeg"}
+    files = sorted([p for p in input_path.rglob("*") if p.suffix.lower() in allowed_exts])
+    processed = 0
     for file_path in files:
-        state_input = {"file_path": str(file_path)}
-        app.invoke(state_input)
-    logger.log(f"Batch processed {len(files)} file(s) in {input_path}")
+        try:
+            state_input = {"file_path": str(file_path)}
+            app.invoke(state_input)
+            processed += 1
+        except Exception as e:
+            logger.log(f"Error processing {file_path}: {e}", level="error")
+    logger.log(f"Batch processed {processed} file(s) in {input_path}")
     
     print("Bye bye from pdf-agent-langgraph! ====================")
 
