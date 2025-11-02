@@ -14,7 +14,7 @@ def organization_node(state: State) -> dict:
 
     Args:
         state: Workflow state expected to contain `entities`, `classification`,
-               `summary`, and `pdf_path`.
+               `summary`, and `file_path`.
 
     Returns:
         A dict containing `moved_path` and `filename` of the relocated file.
@@ -23,7 +23,7 @@ def organization_node(state: State) -> dict:
     entities = state.get("entities") or {}
     organisation = entities.get("Organization", "unknown").strip()
     doc_date_raw = entities.get("Document_Date", "").strip()
-    pdf_path = state.get("pdf_path", "")
+    file_path = state.get("file_path", "")
 
     # Try to parse the document date into yymmdd, fallback to today
     date_prefix = None
@@ -73,10 +73,10 @@ def organization_node(state: State) -> dict:
         company=organisation,
         content_summary=summary,
         date=dt,
-        source_path=pdf_path,  # Pass source_path to preserve extension
+        source_path=file_path,  # Pass source_path to preserve extension
     )
-    logger.log(f"Moving file '{pdf_path}' to '{target_dir / new_name}'", level="info")
-    moved_path = move_rename_file(pdf_path, new_name, str(target_dir))
+    logger.log(f"Moving file '{file_path}' to '{target_dir / new_name}'", level="info")
+    moved_path = move_rename_file(file_path, new_name, str(target_dir))
 
     return {"moved_path": str(moved_path), "filename": Path(moved_path).name}
 

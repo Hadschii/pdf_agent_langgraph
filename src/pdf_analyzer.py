@@ -17,12 +17,12 @@ def text_analysis_node(state: State) -> Dict[str, Any]:
     validated and normalized before being returned as a dict.
 
     Args:
-        state: Workflow state containing `pdf_text`.
+        state: Workflow state containing `file_text`.
 
     Returns:
         A dict with keys: `classification` (str), `entities` (dict), `summary` (str).
     """
-    text = state.get("pdf_text", None)
+    text = state.get("file_text", None)
     if not text:
         raise ValueError("No text found in state for analysis.")
 
