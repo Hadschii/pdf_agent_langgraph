@@ -44,12 +44,7 @@ def extract_text_from_image(
         img = Image.open(path)
         extracted_text = pytesseract.image_to_string(img, lang=ocr_languages)
         extraction_method = "image-pytesseract"
-        if extracted_text:
-            logger.log(
-                f"Extracted text from image {file_path} using pytesseract; {len(extracted_text)} chars",
-                level="info",
-            )
-        else:
+        if not extracted_text:
             logger.log(
                 f"No text found in image {file_path} using pytesseract.",
                 level="warning",

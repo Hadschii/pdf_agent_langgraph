@@ -61,10 +61,15 @@ def type_detection_node(state: State) -> Literal["pdf_extraction_node", "img_ext
     image_exts = {".png", ".jpg", ".jpeg"}
     if path.suffix.lower() in image_exts:
         logger.log(
-            f"Image file support is experimental. Extracting text from image file: {file}",
-            level="warning",
+            f"Extracting text from image file: {file}",
+            level="info",
         )
         return "img_extraction_node"
+    #else default to pdf
+    logger.log(
+            f"Extracting text from PDF file: {file}",
+            level="info",
+        )
     return "pdf_extraction_node"
 
 
